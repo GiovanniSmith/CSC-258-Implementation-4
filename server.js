@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 3000;
-const fs = require('fs')
 
+// this variable keeps track of the payments
 let paymentCounter = 0;
 
-// Without middleware
+// send homepage html file to the client
 app.get('/', function (req, res) {
     const options = {
         root: path.join(__dirname)
@@ -22,14 +22,13 @@ app.get('/', function (req, res) {
     });
 });
 
+// when the user submits the form, the payment variable increases and it is displayed back to the client
 app.post("/submit", (req, res) => {
-    res.send(`<h1>Thanks</h1>`);
     paymentCounter++;
-    fs.writeFile('payments.txt', paymentCounter + "", (err) => {
-        if (err) throw err;
-    })
+    res.send(`<h1>Thanks. Payment number: ` + paymentCounter + `</h1>`);
 });
 
+// server listens for new clients
 app.listen(PORT, function (err) {
     if (err) console.error(err);
     console.log("Server listening on PORT", PORT);
